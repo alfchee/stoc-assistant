@@ -1,5 +1,6 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 import { Category } from './models/category.model';
+import { CategoryCreateInput } from './models/CategoryCreateInput';
 import { CategoryService } from './category.service';
 
 @Resolver((of) => Category)
@@ -19,5 +20,10 @@ export class CategoriesResolver {
     @Args('take', { type: () => Int }) take: number,
   ): Promise<Category[]> {
     return this.categoryService.categories({ skip, take });
+  }
+
+  @Mutation((returns) => Category, { name: 'createCategory' })
+  async createCategory(@Args('category') category: CategoryCreateInput) {
+    return this.categoryService.createCategory(category);
   }
 }

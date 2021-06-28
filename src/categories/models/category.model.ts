@@ -11,11 +11,11 @@ export class Category {
   @Field()
   slug: string;
 
-  @Field()
-  description: string;
+  @Field({ nullable: true })
+  description?: string;
 
-  @Field((type) => Int)
-  parentId: number;
+  @Field((type) => Int, { nullable: true })
+  parentId?: number;
 
   @Field()
   createdAt: Date;

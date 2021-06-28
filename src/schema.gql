@@ -4,10 +4,17 @@
 
 type Category {
   createdAt: DateTime!
-  description: String!
+  description: String
   id: Int!
   name: String!
-  parentId: Int!
+  parentId: Int
+  slug: String!
+}
+
+input CategoryCreateInput {
+  description: String
+  name: String!
+  parentId: Float
   slug: String!
 }
 
@@ -15,6 +22,10 @@ type Category {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type Mutation {
+  createCategory(category: CategoryCreateInput!): Category!
+}
 
 type Query {
   categories(skip: Int!, take: Int!): [Category]!
