@@ -56,6 +56,7 @@ export class CategoryService {
     const { where, data } = params;
     this.logger.log(`Updating category with data ${JSON.stringify(data)}`);
 
+    // updating a category
     return this.prisma.category.update({ data, where });
   }
 
@@ -63,6 +64,8 @@ export class CategoryService {
     where: Prisma.CategoryWhereUniqueInput,
   ): Promise<Category> {
     this.logger.log(`Deleting category with criteria ${JSON.stringify(where)}`);
+
+    // deleting a category
     return this.prisma.category.delete({ where });
   }
 }
