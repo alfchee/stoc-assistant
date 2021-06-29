@@ -4,6 +4,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoriesModule } from './categories/categories.module';
+import { BrandModule } from './brand/brand.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { CategoriesModule } from './categories/categories.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
+    BrandModule,
   ],
   controllers: [AppController],
   providers: [AppService],
