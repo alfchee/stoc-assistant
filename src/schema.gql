@@ -55,9 +55,49 @@ scalar DateTime
 type Mutation {
   createBrand(brand: BrandCreateInput!): Brand!
   createCategory(category: CategoryCreateInput!): Category!
+  createProduct(product: ProductCreateInput!): Product!
   deleteBrand(where: BrandWhere!): Brand!
   deleteCategory(where: CategoryWhere!): Category!
+  deleteProduct(where: ProductWhere!): Product!
   updateCategory(data: BrandUpdateInput!, where: BrandWhere!): Brand!
+  updateProduct(data: ProductUpdateInput!, where: ProductWhere!): Product!
+}
+
+type Product {
+  brand: Brand!
+  brandId: Int!
+  category: Category!
+  categoryId: Int!
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  sku: String!
+  summary: String
+  updatedAt: DateTime
+}
+
+input ProductCreateInput {
+  brandId: Int!
+  categoryId: Int!
+  createdAt: DateTime
+  name: String!
+  sku: String!
+  summary: String
+  updatedAt: DateTime
+}
+
+input ProductUpdateInput {
+  brandId: Int
+  categoryId: Int
+  createdAt: DateTime
+  name: String
+  sku: String
+  summary: String
+  updatedAt: DateTime
+}
+
+input ProductWhere {
+  id: Int
 }
 
 type Query {
@@ -65,4 +105,6 @@ type Query {
   brands(skip: Int!, take: Int!): [Brand]!
   categories(skip: Int!, take: Int!): [Category]!
   category(id: Int!): Category
+  product(id: Int!): Product
+  products(skip: Int!, take: Int!): [Product]!
 }
