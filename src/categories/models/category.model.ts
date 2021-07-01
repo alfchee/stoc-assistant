@@ -19,4 +19,7 @@ export class Category {
 
   @Field()
   createdAt: Date;
+
+  @Field((type) => [Category], { nullable: 'items' })
+  Categories?: Category[];
 }

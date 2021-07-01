@@ -23,6 +23,10 @@ export class ProductService {
 
     return this.prisma.product.findUnique({
       where: productWhereUniqueInput,
+      include: {
+        Category: true,
+        Brand: true,
+      },
     });
   }
 
@@ -56,13 +60,17 @@ export class ProductService {
 
   async createProduct(data: ProductCreateInput) {
     this.logger.log(`Creating product with data ${JSON.stringify(data)}`);
+    const { brandId, categoryId, ...newData } = data;
     const dataC = {
-      ...data,
-      Brand: { connect: { id: data.brandId } },
-      Category: { connect: { id: data.categoryId } },
+      ...newData,
+      Brand: { connect: { id: brandId } },
+      Category: { connect: { id: categoryId } },
     } as Prisma.ProductCreateInput;
 
-    return this.prisma.product.create({ data: dataC });
+    return this.prisma.product.create({
+      data: dataC,
+      include: { Category: true, Brand: true },
+    });
   }
 
   async updateProduct(params: {

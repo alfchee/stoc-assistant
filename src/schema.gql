@@ -26,6 +26,7 @@ input BrandWhere {
 }
 
 type Category {
+  Categories: [Category]!
   createdAt: DateTime!
   description: String
   id: Int!
@@ -64,9 +65,9 @@ type Mutation {
 }
 
 type Product {
-  brand: Brand!
+  Brand: Brand
+  Category: Category
   brandId: Int!
-  category: Category!
   categoryId: Int!
   createdAt: DateTime!
   id: Int!

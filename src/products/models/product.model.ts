@@ -28,9 +28,9 @@ export class Product {
   @Field({ nullable: true })
   updatedAt?: Date;
 
-  @Field((type) => Category)
-  category?: Category;
+  @Field((type) => Category, { nullable: true })
+  Category?: Category;
 
-  @Field((type) => Brand)
-  brand?: Brand;
+  @Field((type) => Brand, { nullable: true })
+  Brand?: Brand;
 }

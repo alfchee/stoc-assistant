@@ -20,6 +20,9 @@ export class CategoryService {
     // finding the category using prisma
     return this.prisma.category.findUnique({
       where: categoryWhereUniqueInput,
+      include: {
+        Categories: true,
+      },
     });
   }
 
@@ -40,6 +43,9 @@ export class CategoryService {
       cursor,
       where,
       orderBy,
+      include: {
+        Categories: true,
+      },
     });
   }
 
