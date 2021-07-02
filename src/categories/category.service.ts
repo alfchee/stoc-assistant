@@ -1,6 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Category, Prisma } from '@prisma/client';
+import {
+  CategoryCreateInput,
+  CategoryUpdateInput,
+} from './models/CategoryInputs';
 
 @Injectable()
 export class CategoryService {
@@ -22,6 +26,7 @@ export class CategoryService {
       where: categoryWhereUniqueInput,
       include: {
         Categories: true,
+        catalog: true,
       },
     });
   }
@@ -45,25 +50,43 @@ export class CategoryService {
       orderBy,
       include: {
         Categories: true,
+        catalog: true,
       },
     });
   }
 
-  async createCategory(data: Prisma.CategoryCreateInput): Promise<Category> {
+  async createCategory(data: CategoryCreateInput): Promise<Category> {
     this.logger.log(`Creating category with data ${JSON.stringify(data)}`);
+    const { catalogId, ...newData } = data;
+    const dataC = {
+      ...newData,
+      catalog: { connect: { id: catalogId } },
+    } as Prisma.CategoryCreateInput;
     // creating the category
-    return this.prisma.category.create({ data });
+    return this.prisma.category.create({
+      data: dataC,
+      include: { catalog: true },
+    });
   }
 
   async updateCategory(params: {
     where: Prisma.CategoryWhereUniqueInput;
-    data: Prisma.CategoryUpdateInput;
+    data: CategoryUpdateInput;
   }): Promise<Category> {
     const { where, data } = params;
     this.logger.log(`Updating category with data ${JSON.stringify(data)}`);
+    const { catalogId, ...newData } = data;
+    const dataC = {
+      ...newData,
+      catalog: { connect: { id: catalogId } },
+    } as Prisma.CategoryUpdateInput;
 
     // updating a category
-    return this.prisma.category.update({ data, where });
+    return this.prisma.category.update({
+      data: dataC,
+      where,
+      include: { catalog: true },
+    });
   }
 
   async deleteCategory(

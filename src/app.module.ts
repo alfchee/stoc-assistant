@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { CategoriesModule } from './categories/categories.module';
 import { BrandModule } from './brand/brand.module';
 import { ProductsModule } from './products/products.module';
+import { CatalogModule } from './catalog/catalog.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductsModule } from './products/products.module';
     }),
     BrandModule,
     ProductsModule,
+    CatalogModule,
   ],
   controllers: [AppController],
   providers: [AppService],

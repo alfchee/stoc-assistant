@@ -10,15 +10,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Catalog {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  categories  Category[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
 model Category {
   id          Int        @id @default(autoincrement())
   name        String     @unique
   slug        String     @unique
   description String?
   parentId    Int?
+  catalogId   Int
   Parent      Category?  @relation(fields: [parentId], references: [id])
   Categories  Category[] @relation("CategoryToCategory")
   Products    Product[]
+  catalog     Catalog    @relation(fields: [catalogId], references: [id])
   createdAt   DateTime   @default(now())
 }
 

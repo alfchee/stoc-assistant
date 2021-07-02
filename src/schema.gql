@@ -25,8 +25,34 @@ input BrandWhere {
   name: String
 }
 
+type Catalog {
+  categories: [Category]
+  createdAt: DateTime!
+  description: String
+  id: Int!
+  name: String!
+  updatedAt: DateTime
+}
+
+input CatalogCreateInput {
+  description: String
+  name: String!
+}
+
+input CatalogUpdateInput {
+  description: String
+  name: String
+  updatedAt: DateTime
+}
+
+input CatalogWhere {
+  id: Int
+}
+
 type Category {
   Categories: [Category]!
+  catalog: Catalog
+  catalogId: Int!
   createdAt: DateTime!
   description: String
   id: Int!
@@ -36,6 +62,7 @@ type Category {
 }
 
 input CategoryCreateInput {
+  catalogId: Int!
   description: String
   name: String!
   parentId: Float
@@ -55,11 +82,14 @@ scalar DateTime
 
 type Mutation {
   createBrand(brand: BrandCreateInput!): Brand!
+  createCatalog(catalog: CatalogCreateInput!): Catalog!
   createCategory(category: CategoryCreateInput!): Category!
   createProduct(product: ProductCreateInput!): Product!
   deleteBrand(where: BrandWhere!): Brand!
+  deleteCatalog(where: CatalogWhere!): Catalog!
   deleteCategory(where: CategoryWhere!): Category!
   deleteProduct(where: ProductWhere!): Product!
+  updateCatalog(data: CatalogUpdateInput!, where: CatalogWhere!): Catalog!
   updateCategory(data: BrandUpdateInput!, where: BrandWhere!): Brand!
   updateProduct(data: ProductUpdateInput!, where: ProductWhere!): Product!
 }
@@ -104,6 +134,8 @@ input ProductWhere {
 type Query {
   brand(id: Int!): Brand
   brands(skip: Int!, take: Int!): [Brand]!
+  catalog(id: Int!): Catalog
+  catalogs(skip: Int!, take: Int!): [Catalog]!
   categories(skip: Int!, take: Int!): [Category]!
   category(id: Int!): Category
   product(id: Int!): Product
