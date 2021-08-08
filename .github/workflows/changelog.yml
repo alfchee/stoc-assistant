@@ -1,0 +1,40 @@
+name: Generate Changelog
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  changelog:
+    name: Changelog Generation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Get package version
+        id: package-version
+        uses: koj-co/package-version-action@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # generate the changelog from last to current version detected
+      - name: Generate Changelog
+        id: changelog
+        uses: scottbrenner/generate-changelog-action@master
+
+      # Create a Release with the changelog
+      - name: Create Release
+        id: release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.package-version.outputs.package-version }}
+          release_name: Release ${{ steps.package-version.outputs.package-version }}
+          draft: false
+          prerelease: false
+          body: |
+            ${{ steps.changelog.outputs.changelog }}
