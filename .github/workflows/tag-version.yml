@@ -1,0 +1,22 @@
+name: Version tagging
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  tag:
+    name: Application Tagging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name:  Automated Github Action Version Bump
+        id: version_bump
+        uses:  'rimonhanna/gh-action-bump-version@master'
+
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
